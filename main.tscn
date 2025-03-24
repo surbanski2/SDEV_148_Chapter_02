@@ -1,14 +1,21 @@
-[gd_scene load_steps=6 format=3 uid="uid://cwsccypg5755v"]
+[gd_scene load_steps=12 format=3 uid="uid://cwsccypg5755v"]
 
 [ext_resource type="Script" uid="uid://dsp5j43vegk8e" path="res://main.gd" id="1_h2yge"]
 [ext_resource type="PackedScene" uid="uid://3yyn3ylouihy" path="res://player.tscn" id="1_ig7tw"]
 [ext_resource type="Texture2D" uid="uid://5xy8rc1lmsfg" path="res://assets/grass.png" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://r7va3yp32x30" path="res://coin.tscn" id="2_lquwl"]
+[ext_resource type="PackedScene" uid="uid://1bx8bir870vu" path="res://powerup.tscn" id="3_kek77"]
 [ext_resource type="PackedScene" uid="uid://dqj4anwf1ma8h" path="res://hud.tscn" id="5_lquwl"]
+[ext_resource type="AudioStream" uid="uid://da2o7uawy1klq" path="res://assets/audio/Coin.wav" id="6_5vw27"]
+[ext_resource type="AudioStream" uid="uid://ccqivflesxslu" path="res://assets/audio/EndSound.wav" id="7_kek77"]
+[ext_resource type="AudioStream" uid="uid://dcup0n2xg8cah" path="res://assets/audio/Level.wav" id="8_4c57u"]
+[ext_resource type="AudioStream" uid="uid://8qep4iixvo6f" path="res://assets/audio/Powerup.wav" id="10_4c57u"]
+[ext_resource type="PackedScene" uid="uid://dslkcelky5hmo" path="res://cactus.tscn" id="11_efxa6"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_h2yge")
 coin_scene = ExtResource("2_lquwl")
+powerup_scene = ExtResource("3_kek77")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 anchors_preset = 15
@@ -25,7 +32,35 @@ stretch_mode = 1
 
 [node name="HUD" parent="." instance=ExtResource("5_lquwl")]
 
+[node name="CoinSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_5vw27")
+
+[node name="EndSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_kek77")
+
+[node name="LevelSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_4c57u")
+
+[node name="PowerupSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_4c57u")
+
+[node name="PowerupTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Cactus" parent="." instance=ExtResource("11_efxa6")]
+position = Vector2(101, 520)
+
+[node name="Cactus2" parent="." instance=ExtResource("11_efxa6")]
+position = Vector2(341, 461)
+
+[node name="Cactus3" parent="." instance=ExtResource("11_efxa6")]
+position = Vector2(136, 222)
+
+[node name="Cactus4" parent="." instance=ExtResource("11_efxa6")]
+position = Vector2(387, 150)
+
 [connection signal="hurt" from="Player" to="." method="_on_player_hurt"]
 [connection signal="pickup" from="Player" to="." method="_on_player_pickup"]
 [connection signal="timeout" from="GameTimer" to="." method="_on_game_timer_timeout"]
 [connection signal="start_game" from="HUD" to="." method="_on_hud_start_game"]
+[connection signal="timeout" from="PowerupTimer" to="." method="_on_powerup_timer_timeout"]
