@@ -4,6 +4,7 @@ signal  pickup
 signal hurt
 
 @export var speed = 350
+
 var velocity = Vector2.ZERO
 var screensize = Vector2(480,720)
 
